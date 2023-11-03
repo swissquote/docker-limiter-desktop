@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "configure" ]; then
+    if [ ! -e /etc/default/docker-limiter-desktop ]; then
+        cp /usr/share/docker-limiter-desktop/docker-limiter-desktop /etc/default/docker-limiter-desktop
+    fi
+fi
+
+/usr/local/sbin/docker-limiter-desktop-set-resources
+
+## Reload daemon
+systemctl daemon-reload
+systemctl enable docker-limiter-desktop
+systemctl stop docker-limiter-desktop
+systemctl enable docker-limiter-desktop.path
+systemctl restart docker-limiter-desktop.path
+systemctl restart docker

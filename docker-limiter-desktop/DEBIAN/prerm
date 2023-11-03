@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+CONFIG_FILE="/etc/docker/daemon.json"
+KEY="cgroup-parent"
+VALUE="docker-limiter-desktop.slice"
+
+# Check if jq is installed
+if ! command -v jq &> /dev/null; then
+    echo "jq could not be found. Please install it to proceed."
+    exit 1
+fi
+
+# Check if the configuration file exists and is a file
+if [[ ! -f "$CONFIG_FILE" ]]; then
+    echo "Configuration file does not exist."
+else
+    # Check if the key-value pair is present in the config file
+    CURRENT_VALUE=$(jq -r ".[\"$KEY\"]" "$CONFIG_FILE")
+
+    if [[ "$CURRENT_VALUE" == "$VALUE" ]]; then
+        # Remove the key-value pair
+        jq "del(.[\"$KEY\"])" "$CONFIG_FILE" > "$CONFIG_FILE.tmp" \
+            && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+        echo "Configuration removed."
+    else
+        echo "Specified configuration not found."
+    fi
+fi
+
+## Reload daemon
+systemctl stop docker-limiter-desktop
+systemctl disable docker-limiter-desktop
+systemctl stop docker-limiter-desktop.path
+systemctl disable docker-limiter-desktop.path
+systemctl daemon-reload
+systemctl restart docker

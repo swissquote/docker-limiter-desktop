@@ -1,0 +1,11 @@
+[Unit]
+Description=Docker daemon controller to limit memory and CPU allocation
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/docker-limiter-desktop-set-resources
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

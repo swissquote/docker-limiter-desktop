@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "remove" ]; then
+    echo "Deleting the config file..."
+    rm -f /etc/default/docker-limiter-desktop
+fi

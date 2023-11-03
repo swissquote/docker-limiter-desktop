@@ -1,0 +1,18 @@
+# /etc/default/desktop-docker-limiter
+
+# IMPORTANT: Modifying the configurations in this file will automatically trigger
+# a restart of the Docker daemon to apply the new resource limits. Ensure that such
+# a restart is safe in your environment to prevent disruptions to running containers.
+
+# This configuration file is used to define the maximum percentage of system resources
+# that can be utilized by Docker containers when using the Desktop-Docker-Limiter utility.
+
+# MAX_MEMORY: The maximum percentage of total system memory that can be allocated
+# across all Docker containers. Expressed as an integer percentage (0-100).
+# Example: MAX_MEMORY=90 means Docker containers can use up to 90% of total system memory.
+MAX_MEMORY=90
+
+# MAX_CPU: The maximum percentage of total CPU resources that can be allocated
+# across all Docker containers. Expressed as an integer percentage (0-100).
+# Example: MAX_CPU=90 means Docker containers can use up to 90% of total CPU resources.
+MAX_CPU=90

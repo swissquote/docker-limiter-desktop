@@ -1,0 +1,9 @@
+Package: docker-limiter-desktop
+Version: 0.0.4
+Section: utils
+Priority: standard
+Architecture: amd64
+Depends: jq
+Homepage: https://github.com/swissquote/docker-limiter-desktop
+Maintainer: RedNo2 <redno2@users.noreply.github.com>
+Description: Docker daemon controller to limit memory and CPU allocation

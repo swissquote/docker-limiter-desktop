@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -a
+. /etc/default/docker-limiter-desktop
+
+## Memory
+total_mem_kb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+# Calculate 90% of the memory
+limit_mem_kb=$((total_mem_kb * $MAX_MEMORY / 100))
+sed -i "/\[Slice\]/,/^$/s/MemoryLimit=.*/MemoryLimit=${limit_mem_kb}K/" /etc/systemd/system/docker-limiter-desktop.slice
+
+## CPU
+total_cpus=$(nproc)
+# Calculate 90% of the CPUs formated for CPUQuota
+limit_cpu_quota=$((total_cpus * $MAX_CPU))
+sed -i "/\[Slice\]/,/^$/s/CPUQuota=.*/CPUQuota=${limit_cpu_quota}%/" /etc/systemd/system/docker-limiter-desktop.slice
+
+## Reload services
+systemctl daemon-reload
+systemctl restart docker

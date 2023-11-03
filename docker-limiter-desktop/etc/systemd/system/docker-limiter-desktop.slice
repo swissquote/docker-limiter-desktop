@@ -1,0 +1,11 @@
+# /etc/systemd/system/docker-limiter-desktop.slice
+[Unit]
+Description=Limited resources Slice for Docker daemon
+Before=slices.target
+
+[Slice]
+CPUAccounting=true
+CPUQuota=800%
+MemoryAccounting=true
+MemoryLimit=8G
+MemoryMaxSwap=10G
